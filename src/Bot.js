@@ -1,4 +1,4 @@
-var Jumper = cc.Sprite.extend({
+var Bot = cc.Sprite.extend({
     ctor: function( x, y, gameLayer ) {
         this._super();
         this.initWithFile( 'res/images/tp.png' );
@@ -34,8 +34,18 @@ var Jumper = cc.Sprite.extend({
     },
 
     update: function() {
-        if (this.y < 0)
+        
+        this.x += 8;
+        
+        var ran = 1 + Math.floor(Math.random() * 100);
+        if (ran == 50) {
+            this.jump = !this.jump;
+        }
+        
+        if (this.y < 0) {
             this.gameLayer.removeChild(this);
+            this.gameLayer.botNum++;
+        }
             
         var oldRect = this.getBoundingBoxToWorld();
         var oldX = this.x;
@@ -154,14 +164,14 @@ var Jumper = cc.Sprite.extend({
     },
     
     handleKeyDown: function( e ) {
-        if ( Jumper.KEYMAP[ e ] != undefined ) {
-            this[ Jumper.KEYMAP[ e ] ] = true;
+        if ( Bot.KEYMAP[ e ] != undefined ) {
+            this[ Bot.KEYMAP[ e ] ] = true;
         }
     },
 
     handleKeyUp: function( e ) {
-        if ( Jumper.KEYMAP[ e ] != undefined ) {
-            this[ Jumper.KEYMAP[ e ] ] = false;
+        if ( Bot.KEYMAP[ e ] != undefined ) {
+            this[ Bot.KEYMAP[ e ] ] = false;
         }
     },
 
@@ -170,8 +180,8 @@ var Jumper = cc.Sprite.extend({
     }
 });
 
-Jumper.KEYMAP = {}
-Jumper.KEYMAP[cc.KEY.left] = 'moveLeft';
-Jumper.KEYMAP[cc.KEY.right] = 'moveRight';
-Jumper.KEYMAP[cc.KEY.up] = 'jump';
+Bot.KEYMAP = {}
+Bot.KEYMAP[cc.KEY.left] = 'moveLeft';
+Bot.KEYMAP[cc.KEY.right] = 'moveRight';
+Bot.KEYMAP[cc.KEY.up] = 'jump';
         

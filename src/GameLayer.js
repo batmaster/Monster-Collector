@@ -2,10 +2,11 @@ var GameLayer = cc.LayerColor.extend({
     init: function() {
         this._super( new cc.Color4B( 127, 127, 127, 255 ) );
         this.setPosition( new cc.Point( 0, 0 ) );
-
+        
+        this.botNum = 1;
         this.createBlocks();
 
-        this.jumper = new Jumper( 400, 160 );
+        this.jumper = new Jumper( 400, 160, this );
         this.jumper.setBlocks( this.blocks );
         this.addChild( this.jumper );
         this.scheduleOnce(function() {
@@ -13,15 +14,21 @@ var GameLayer = cc.LayerColor.extend({
         }, 2);
         
         this.setKeyboardEnabled( true );
-
         this.scheduleUpdate();
-        
         return true;
     },
     
     update: function() {
-        if (this.jumper.y < 0)
-            this.removeChild(this.jumper);
+        if (this.botNum > 0) {
+            var ran = 1 + Math.floor(Math.random() * 100);
+            if (ran == 50) {
+                this.bot = new Bot(600, 600, this);
+                this.bot.setBlocks( this.blocks );
+                this.addChild( this.bot );
+                this.bot.scheduleUpdate();
+                this.botNum--;
+            }
+        }
     },
 
     createBlocks: function() {
