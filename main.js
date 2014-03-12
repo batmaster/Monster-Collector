@@ -23,9 +23,14 @@ var cocos2dApp = cc.Application.extend({
         director.setAnimationInterval( 1.0 / this.config[ 'frameRate' ] );
 
         director.runWithScene( new this.startScene() );
-
+        cc.LoaderScene.preload(g_resources, function () {
+            director.replaceScene( new this.startScene() );
+        }, this );
         return true;
     }
 });
 
+
+var screenHeight = 600;
+var screenWidth = 800;
 var myApp = new cocos2dApp( StartScene );
