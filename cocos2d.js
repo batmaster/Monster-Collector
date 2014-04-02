@@ -16,7 +16,8 @@
             'src/GameLayer.js',     //add your own files in order here
             'src/Jumper.js',
             'src/Block.js',
-            'src/Bot.js'
+            'src/Bot.js',
+            'src/Fire.js',
         ]
     };
 

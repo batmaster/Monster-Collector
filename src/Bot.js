@@ -1,7 +1,7 @@
 var Bot = cc.Sprite.extend({
     ctor: function( x, y, gameLayer ) {
         this._super();
-        this.initWithFile( 'res/images/tp.png' );
+        this.initWithFile( 'res/images/bot.png' );
         this.setScale(2);
         this.setAnchorPoint( 0.5, 0  );
         this.x = x;
@@ -34,17 +34,25 @@ var Bot = cc.Sprite.extend({
     },
 
     update: function() {
-        
-        this.x += 8;
-        
+        // jump randomly
         var ran = 1 + Math.floor(Math.random() * 100);
         if (ran == 50) {
             this.jump = !this.jump;
         }
+        /*
+        if (this.gameLayer.jumper.y > this.y + 200) {
+            this.jump = true;
+        }
+        else {
+            this.jump = false;
+        }*/
+        this.x += 8
+            
         
         if (this.y < 0) {
-            this.gameLayer.removeChild(this);
-            this.gameLayer.botNum++;
+            //this.gameLayer.removeChild(this);
+            //this.gameLayer.botNum++;
+            this.y = screenHeight;
         }
             
         var oldRect = this.getBoundingBoxToWorld();
