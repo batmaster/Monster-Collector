@@ -1,10 +1,13 @@
 var GameLayer = cc.LayerColor.extend({
-    init: function() {
+    init: function(scene) {
         this._super(new cc.Color4B(127, 127, 127, 255));
         this.setPosition(new cc.Point(0, 0));
         
+        this.scene = scene;
+        
         this.botNum = 50;
         this.killedBot = 0;
+        this.time = 300;
         this.bots = [];
         this.fires = [];
         this.lastFire = new Date().getTime();
@@ -18,53 +21,17 @@ var GameLayer = cc.LayerColor.extend({
             this.jumper.scheduleUpdate();
         }, 2);
         
-        this.testlbl = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.testlbl.setPosition( new cc.Point( 750, 550 ) );
-        this.addChild( this.testlbl );
+        this.scorelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
+        this.scorelbl.setPosition( new cc.Point( 750, 550 ) );
+        this.addChild( this.scorelbl );
+        
+        this.timelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
+        this.timelbl.setPosition( new cc.Point( 500, 550 ) );
+        this.addChild( this.timelbl );
         
         this.setKeyboardEnabled(true);
         this.scheduleUpdate();
         return true;
-    },
-    
-    update: function() {
-        if (this.botNum > 0) {
-            var ran = 1 + Math.floor(Math.random() * 100);
-            if (ran == 50) {
-                var bot = new Bot(600, 600, this);
-                bot.setBlocks(this.blocks);
-                this.addChild(bot);
-                bot.scheduleUpdate();
-                this.bots.push(bot);
-                this.botNum--;
-            }
-        }
-        this.checkBot();
-    },
-    
-    checkBot: function() {
-        //console.log("length: " + this.bots.length + " " + this.fires.length);
-        for (var i = 0; i < this.bots.length; i++) {
-            for (var j = 0; j < this.fires.length; j++) {
-                if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
-                    (this.bots[i].y >= this.fires[j].y - 20) && (this.bots[i].y <= this.fires[j].y + 20)) {
-                    this.removeChild(this.bots[i]);
-                    this.removeChild(this.fires[j]);
-                    this.removeElement(this.bots, this.bots[i]);
-                    this.removeElement(this.fires, this.fires[j]);
-                    console.log("remove: " + i + " " + j);
-                    
-                    this.testlbl.setString(++this.killedBot);
-                }
-            }
-        }
-    },
-    
-    removeElement: function(list, data) {
-        var index = list.indexOf(data);
-        if (index > -1) {
-            list.splice(index, 1);
-        }
     },
     
     createBlocks: function() {
@@ -82,7 +49,7 @@ var GameLayer = cc.LayerColor.extend({
             this.addChild(b);
         }, this);
     },
-
+    
     onKeyDown: function(e) {
         this.jumper.handleKeyDown(e);
         
@@ -100,14 +67,55 @@ var GameLayer = cc.LayerColor.extend({
 
     onKeyUp: function(e) {
         this.jumper.handleKeyUp(e);
-    }
-});
-
-var StartScene = cc.Scene.extend({
-    onEnter: function() {
-        this._super();
-        var layer = new GameLayer();
-        layer.init();
-        this.addChild(layer);
-    }
+    },
+    
+    update: function() {
+        if (this.botNum > 0) {
+            var ran = 1 + Math.floor(Math.random() * 100);
+            if (ran == 50) {
+                var bot = new Bot(600, 600, this);
+                bot.setBlocks(this.blocks);
+                this.addChild(bot);
+                bot.scheduleUpdate();
+                this.bots.push(bot);
+                this.botNum--;
+            }
+        }
+        this.checkBot();
+        
+        this.time--;
+        this.timelbl.setString(parseInt(this.time/100));
+        if (this.time <= 0) {
+            this.setKeyboardEnabled(false);
+            this.unscheduleUpdate();
+            if (this.time <=180) {
+                this.scene.gameOver();
+                //this.scene.removeChild(this);
+            }
+        }
+    },
+    
+    checkBot: function() {
+        for (var i = 0; i < this.bots.length; i++) {
+            for (var j = 0; j < this.fires.length; j++) {
+                if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
+                    (this.bots[i].y >= this.fires[j].y - 20) && (this.bots[i].y <= this.fires[j].y + 20)) {
+                    this.removeChild(this.bots[i]);
+                    this.removeChild(this.fires[j]);
+                    this.removeElement(this.bots, this.bots[i]);
+                    this.removeElement(this.fires, this.fires[j]);
+                    console.log("remove: bots[" + i + "] fires[" + j + "]");
+                    
+                    this.scorelbl.setString(++this.killedBot);
+                }
+            }
+        }
+    },
+    
+    removeElement: function(list, data) {
+        var index = list.indexOf(data);
+        if (index > -1) {
+            list.splice(index, 1);
+        }
+    }, 
 });

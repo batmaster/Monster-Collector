@@ -46,7 +46,7 @@ var Bot = cc.Sprite.extend({
         else {
             this.jump = false;
         }*/
-        this.x += 8
+        this.x += 2
             
         
         if (this.y < 0) {
