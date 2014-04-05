@@ -34,8 +34,10 @@ var Jumper = cc.Sprite.extend({
     },
 
     update: function() {
-        if (this.y < 0)
-            this.gameLayer.removeChild(this);
+        if (this.y < 0) {
+            //this.gameLayer.removeChild(this);
+            this.y = screenHeight;   
+        }
             
         var oldRect = this.getBoundingBoxToWorld();
         var oldX = this.x;
