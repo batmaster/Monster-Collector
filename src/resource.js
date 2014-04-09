@@ -3,7 +3,8 @@ var g_resources = [
     {src: 'res/images/tp.png'},
     {src: 'res/images/ground.png'},
     {src: 'res/images/ie.png'},
-    {src: 'bot/images/bot.png'}
+    {src: 'res/images/bot.png'},
+    {src: 'res/images/map.jpg'}
     
 
     //plist

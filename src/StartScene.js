@@ -16,4 +16,10 @@ var StartScene = cc.Scene.extend({
         layer.init(this);
         this.addChild(layer);
     },
+    
+    showMap: function() {
+        var gameMap = new GameMap();
+        gameMap.init(this);
+        this.addChild(gameMap);
+    },
 });

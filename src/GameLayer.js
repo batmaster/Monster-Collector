@@ -7,7 +7,7 @@ var GameLayer = cc.LayerColor.extend({
         
         this.botNum = 50;
         this.killedBot = 0;
-        this.time = 300;
+        this.time = 600;
         this.bots = [];
         this.fires = [];
         this.lastFire = new Date().getTime();

@@ -1,6 +1,6 @@
 var GameOver = cc.Layer.extend({
     init: function(scene) {
-        this._super(new cc.Color4B(17, 17, 17, 255));
+        //this._super(new cc.Color4B(17, 17, 17, 255));
         this.setPosition(new cc.Point(0, 0));
         
         this.scene = scene;
@@ -25,7 +25,7 @@ var GameOver = cc.Layer.extend({
 
     onKeyUp: function(e) {
         switch(e) {
-            case cc.KEY.space:
+            case cc.KEY.enter:
                 this.scene.play();
             break;
         }

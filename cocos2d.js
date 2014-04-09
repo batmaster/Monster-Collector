@@ -19,7 +19,8 @@
             'src/Bot.js',
             'src/Fire.js',
             'src/StartScene.js',
-            'src/GameOver.js'
+            'src/GameOver.js',
+            'src/GameMap.js'
         ]
     };
 
