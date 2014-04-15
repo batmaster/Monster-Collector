@@ -7,6 +7,7 @@ var Fire = cc.Sprite.extend({
         this.startX = x;
         this.x = x;
         this.y = y;
+        this.dir = gameLayer.jumper.dir;
         this.gameLayer = gameLayer;
         
         this.updatePosition();
@@ -20,11 +21,21 @@ var Fire = cc.Sprite.extend({
     },
     
     update: function() {
-        this.x += 16;
-        if (this.x > this.startX + 400) {
-            this.gameLayer.removeElement(this.gameLayer.fires, this);
-            this.gameLayer.removeChild(this);
+        if (this.dir == Jumper.DIR.RIGHT) {
+            this.x += 16;
+            if (this.x > this.startX + 400) {
+                this.gameLayer.removeElement(this.gameLayer.fires, this);
+                this.gameLayer.removeChild(this);
+            }
         }
+        else if (this.dir == Jumper.DIR.LEFT) {
+            this.x -= 16;
+            if (this.x < this.startX - 400) {
+                this.gameLayer.removeElement(this.gameLayer.fires, this);
+                this.gameLayer.removeChild(this);
+            }
+        }
+        
         this.updatePosition();
     }
 });

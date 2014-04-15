@@ -6,6 +6,7 @@ var Jumper = cc.Sprite.extend({
         this.setAnchorPoint(0.5, 0 );
         this.x = x;
         this.y = y;
+        this.dir = Jumper.DIR.RIGHT;
         this.gameLayer = gameLayer;
 
         this.maxVx = 8;
@@ -156,14 +157,21 @@ var Jumper = cc.Sprite.extend({
     },
     
     handleKeyDown: function(e) {
-        if (Jumper.KEYMAP[ e ] != undefined) {
-            this[ Jumper.KEYMAP[ e ] ] = true;
+        if (Jumper.KEYMAP[e] != undefined) {
+            this[Jumper.KEYMAP[e]] = true;
+        }
+        
+        if (e == cc.KEY.left) {
+            this.dir = Jumper.DIR.LEFT;
+        }
+        else if (e == cc.KEY.right) {
+            this.dir = Jumper.DIR.RIGHT;
         }
     },
 
     handleKeyUp: function(e) {
-        if (Jumper.KEYMAP[ e ] != undefined) {
-            this[ Jumper.KEYMAP[ e ] ] = false;
+        if (Jumper.KEYMAP[e] != undefined) {
+            this[Jumper.KEYMAP[e]] = false;
         }
     },
 
@@ -176,4 +184,9 @@ Jumper.KEYMAP = {}
 Jumper.KEYMAP[cc.KEY.left] = 'moveLeft';
 Jumper.KEYMAP[cc.KEY.right] = 'moveRight';
 Jumper.KEYMAP[cc.KEY.up] = 'jump';
+
+Jumper.DIR = {
+    LEFT: -1,
+    RIGHT: 1
+};
         
