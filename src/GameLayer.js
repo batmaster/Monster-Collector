@@ -93,17 +93,20 @@ var GameLayer = cc.LayerColor.extend({
     },
     
     checkBotKilled: function() {
-        for (var i = 0; i < this.bots.length; i++) {
-            for (var j = 0; j < this.fires.length; j++) {
-                if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
-                    (this.bots[i].y >= this.fires[j].y - 20) && (this.bots[i].y <= this.fires[j].y + 20)) {
-                    this.removeChild(this.bots[i]);
-                    this.removeChild(this.fires[j]);
-                    this.removeElement(this.bots, this.bots[i]);
-                    this.removeElement(this.fires, this.fires[j]);
-                    console.log("remove: bots[" + i + "] fires[" + j + "]");
-                    
-                    this.scorelbl.setString(++this.killedBot);
+        checkBotKilled: {
+            for (var i = 0; i < this.bots.length; i++) {
+                for (var j = 0; j < this.fires.length; j++) {
+                    if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
+                        (this.bots[i].y >= this.fires[j].y - 20) && (this.bots[i].y <= this.fires[j].y + 20)) {
+                        this.removeChild(this.bots[i]);
+                        this.removeChild(this.fires[j]);
+                        this.removeElement(this.bots, this.bots[i]);
+                        this.removeElement(this.fires, this.fires[j]);
+                        console.log("remove: bots[" + i + "] fires[" + j + "]");
+
+                        this.scorelbl.setString(++this.killedBot);
+                        break checkBotKilled;
+                    }
                 }
             }
         }
