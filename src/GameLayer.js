@@ -111,9 +111,17 @@ var GameLayer = cc.LayerColor.extend({
     
     checkBotTouched: function() {
         for (var i = 0; i < this.bots.length; i++) {
-            if (this.bots[i].isTouch(this.jumper)) {
-                this.gameOver();
+            if (this.bots[i].isStamp(this.jumper)) {
+                this.jumper.vy = -this.jumper.vy;
+                
+                this.removeChild(this.bots[i]);
+                this.removeElement(this.bots, this.bots[i]);
+                this.scorelbl.setString(++this.killedBot);
+                console.log("stamp " + i);
             }
+            /*if (this.bots[i].isTouch(this.jumper)) {
+                this.gameOver();
+            }*/
         }
     },
     

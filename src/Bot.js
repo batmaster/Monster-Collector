@@ -189,7 +189,12 @@ var Bot = cc.Sprite.extend({
     
     
     isStamp: function(player) {
-        
+        if (player.getPositionX() >= this.x - 40 && player.getPositionX() <= this.x + 40 &&
+           player.getPositionY() >= this.y - 40 && player.getPositionY() <= this.y + 40) {
+            if (player.vy < 0) {
+                return true;
+            }
+        }
     },
     
     isTouch: function(player) {
@@ -204,4 +209,3 @@ Bot.KEYMAP = {}
 Bot.KEYMAP[cc.KEY.left] = 'moveLeft';
 Bot.KEYMAP[cc.KEY.right] = 'moveRight';
 Bot.KEYMAP[cc.KEY.up] = 'jump';
-        
