@@ -7,7 +7,7 @@ var GameLayer = cc.LayerColor.extend({
         
         this.botNum = 50;
         this.killedBot = 0;
-        this.time = 600;
+        this.time = 3000;
         this.bots = [];
         this.fires = [];
         this.lastFire = new Date().getTime();
@@ -81,21 +81,18 @@ var GameLayer = cc.LayerColor.extend({
                 this.botNum--;
             }
         }
-        this.checkBot();
+        this.checkBotKilled();
+        this.checkBotTouched();
         
         this.time--;
-        this.timelbl.setString(parseInt(this.time/100));
+        this.timelbl.setString(parseInt(this.time));
         if (this.time <= 0) {
-            this.setKeyboardEnabled(false);
-            this.unscheduleUpdate();
-            if (this.time <=180) {
-                this.scene.gameOver();
-                //this.scene.removeChild(this);
-            }
+            this.gameOver();
+            //this.scene.removeChild(this);
         }
     },
     
-    checkBot: function() {
+    checkBotKilled: function() {
         for (var i = 0; i < this.bots.length; i++) {
             for (var j = 0; j < this.fires.length; j++) {
                 if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
@@ -112,10 +109,28 @@ var GameLayer = cc.LayerColor.extend({
         }
     },
     
+    checkBotTouched: function() {
+        for (var i = 0; i < this.bots.length; i++) {
+            if (this.bots[i].isTouch(this.jumper)) {
+                this.gameOver();
+            }
+        }
+    },
+    
     removeElement: function(list, data) {
         var index = list.indexOf(data);
         if (index > -1) {
             list.splice(index, 1);
         }
-    }, 
+    },
+    
+    gameOver: function() {
+        this.setKeyboardEnabled(false);
+        this.unscheduleUpdate();
+        this.scene.gameOver();
+        for (var i = 0; i < this.bots.length; i++) {
+            this.bots[i].unscheduleUpdate();
+        }
+        this.jumper.unscheduleUpdate();
+    }
 });

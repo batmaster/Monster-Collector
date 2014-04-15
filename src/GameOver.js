@@ -24,6 +24,7 @@ var GameOver = cc.Layer.extend({
     },
 
     onKeyUp: function(e) {
+        console.log(e);
         switch(e) {
             case cc.KEY.enter:
                 this.scene.play();

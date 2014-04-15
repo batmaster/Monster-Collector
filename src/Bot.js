@@ -185,6 +185,18 @@ var Bot = cc.Sprite.extend({
 
     setBlocks: function( blocks ) {
         this.blocks = blocks;
+    },
+    
+    
+    isStamp: function(player) {
+        
+    },
+    
+    isTouch: function(player) {
+        if (player.getPositionX() >= this.x - 40 && player.getPositionX() <= this.x + 40 &&
+           player.getPositionY() >= this.y - 40 && player.getPositionY() <= this.y + 40) {
+            return true;
+        }
     }
 });
 
