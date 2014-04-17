@@ -9,6 +9,8 @@ var Jumper = cc.Sprite.extend({
         this.dir = Jumper.DIR.RIGHT;
         this.gameLayer = gameLayer;
 
+        this.life = 5;
+        
         this.maxVx = 8;
         this.accX = 0.25;
         this.backAccX = 0.5;

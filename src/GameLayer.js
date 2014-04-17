@@ -10,6 +10,7 @@ var GameLayer = cc.LayerColor.extend({
         this.time = 3000;
         this.bots = [];
         this.fires = [];
+        this.botFires = [];
         this.lastFire = new Date().getTime();
        
         this.createBlocks();
@@ -28,6 +29,11 @@ var GameLayer = cc.LayerColor.extend({
         this.timelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
         this.timelbl.setPosition( new cc.Point( 500, 550 ) );
         this.addChild( this.timelbl );
+        
+        this.lifelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
+        this.lifelbl.setString(this.jumper.life);
+        this.lifelbl.setPosition( new cc.Point( 100, 550 ) );
+        this.addChild( this.lifelbl );
         
         this.setKeyboardEnabled(true);
         this.scheduleUpdate();
@@ -50,15 +56,24 @@ var GameLayer = cc.LayerColor.extend({
         }, this);
     },
     
+    fire: function() {
+        var fire = new Fire(this.jumper.x, this.jumper.y, this);
+        this.fires.push(fire);
+        this.lastFire = new Date().getTime();
+    },
+    
+    botFire: function(bot) {
+        var botFire = new BotFire(bot.x, bot.y, this);
+        this.botFires.push(botFire);
+    },
+    
     onKeyDown: function(e) {
         this.jumper.handleKeyDown(e);
         
-        switch(e){
+        switch(e) {
             case cc.KEY.space:
-                if (new Date().getTime() - this.lastFire >= 100) {
-                    var fire = new Fire(this.jumper.x, this.jumper.y, this);
-                    this.fires.push(fire);
-                    this.lastFire = new Date().getTime();
+                if (new Date().getTime() - this.lastFire >= 300) {
+                    this.fire();
                 }
                 
             break;
@@ -83,48 +98,63 @@ var GameLayer = cc.LayerColor.extend({
         }
         this.checkBotKilled();
         this.checkBotTouched();
+        this.checkKilled();
         
         this.time--;
         this.timelbl.setString(parseInt(this.time));
-        if (this.time <= 0) {
+        
+        if (this.time <= 0 || this.jumper.life <= 0) {
             this.gameOver();
             //this.scene.removeChild(this);
         }
     },
     
     checkBotKilled: function() {
-        checkBotKilled: {
-            for (var i = 0; i < this.bots.length; i++) {
-                for (var j = 0; j < this.fires.length; j++) {
-                    if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
-                        (this.bots[i].y >= this.fires[j].y - 20) && (this.bots[i].y <= this.fires[j].y + 20)) {
-                        this.removeChild(this.bots[i]);
-                        this.removeChild(this.fires[j]);
-                        this.removeElement(this.bots, this.bots[i]);
-                        this.removeElement(this.fires, this.fires[j]);
-                        console.log("remove: bots[" + i + "] fires[" + j + "]");
+        for (var i = 0; i < this.bots.length; i++) {
+            for (var j = 0; j < this.fires.length; j++) {
+                if ((this.bots[i].x >= this.fires[j].x - 20) && (this.bots[i].x <= this.fires[j].x + 20) &&
+                    (this.bots[i].y >= this.fires[j].y - 20) && (this.bots[i].y <= this.fires[j].y + 20)) {
+                    this.removeChild(this.bots[i]);
+                    this.removeChild(this.fires[j]);
+                    this.removeElement(this.bots, this.bots[i]);
+                    this.removeElement(this.fires, this.fires[j]);
+                    console.log("remove: bots[" + i + "] fires[" + j + "]");
 
-                        this.scorelbl.setString(++this.killedBot);
-                        break checkBotKilled;
-                    }
+                    this.scorelbl.setString(++this.killedBot);
+                    return;
                 }
+            }
+        }
+    },
+    
+    checkKilled: function() {
+        for (var i = 0; i < this.botFires.length; i++) {
+            if ((this.botFires[i].x >= this.jumper.x - 20) && (this.botFires[i].x <= this.jumper.x + 20) &&
+                (this.botFires[i].y >= this.jumper.y - 20) && (this.botFires[i].y <= this.jumper.y + 20)) {
+                this.removeChild(this.botFires[i]);
+                this.removeElement(this.botFires, this.botFires[i]);
+                
+                this.lifelbl.setString(--this.jumper.life);
             }
         }
     },
     
     checkBotTouched: function() {
         for (var i = 0; i < this.bots.length; i++) {
+            if (this.bots[i].isTouch(this.jumper)) {
+                console.log("bots[" + i + "] " + this.bots[i].touch);
+                this.bots[i].touch++;
+            }
+            
+            // stamp
             if (this.bots[i].isStamp(this.jumper)) {
-                this.jumper.vy = -this.jumper.vy;
+                this.jumper.vy = this.jumper.jumpV;
                 
                 this.removeChild(this.bots[i]);
                 this.removeElement(this.bots, this.bots[i]);
                 this.scorelbl.setString(++this.killedBot);
                 console.log("stamp " + i);
             }
-            /*if (this.bots[i].isTouch(this.jumper)) {
-                this.gameOver();
-            }*/
         }
     },
     

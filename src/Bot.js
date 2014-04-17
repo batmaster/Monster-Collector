@@ -26,28 +26,46 @@ var Bot = cc.Sprite.extend({
         this.blocks = [];
 
         this.updatePosition();
+        
+        this.state = Bot.STATE.IDLE;
+        this.lastMovement = new Date().getTime();
+        
+        this.touch = 0;
     },
 
     updatePosition: function() {
         this.setPosition( cc.p( Math.round( this.x ),
                                 Math.round( this.y ) ) );
     },
-
+    
     update: function() {
-        // jump randomly
-        var ran = 1 + Math.floor(Math.random() * 100);
-        if (ran == 50) {
-            this.jump = !this.jump;
-        }
-        /*
-        if (this.gameLayer.jumper.y > this.y + 200) {
-            this.jump = true;
-        }
-        else {
-            this.jump = false;
-        }*/
-        this.x += 2
+        // random movement if free
+        if (new Date().getTime() - this.lastMovement >= 1800) {
+            this.lastMovement = new Date().getTime();
             
+            this.state = Math.floor(Math.random() * 3);
+        }
+        
+        switch (this.state) {
+            case Bot.STATE.IDLE:
+
+                break;
+            case Bot.STATE.MOVERIGHT:
+                this.x += 3;
+                this.randomJump();
+                //this.moveRight();
+                break;
+            case Bot.STATE.MOVELEFT:
+                this.x -= 3;
+                this.randomJump();
+                //this.moveLeft();
+                break;
+        }
+        
+        if (this.touch >= 12) {
+            this.gameLayer.botFire(this);
+            this.touch = 0;
+        }
         
         if (this.y < 0) {
             //this.gameLayer.removeChild(this);
@@ -74,6 +92,13 @@ var Bot = cc.Sprite.extend({
         this.updatePosition();
     },
 
+    randomJump: function() {
+        var ran = 1 + Math.floor(Math.random() * 300);
+        if (ran == 50) {
+            this.jump = !this.jump;
+        }    
+    },
+    
     updateXMovement: function() {
         if ( this.ground ) {
             if ( ( !this.moveLeft ) && ( !this.moveRight ) ) {
@@ -209,3 +234,9 @@ Bot.KEYMAP = {}
 Bot.KEYMAP[cc.KEY.left] = 'moveLeft';
 Bot.KEYMAP[cc.KEY.right] = 'moveRight';
 Bot.KEYMAP[cc.KEY.up] = 'jump';
+
+Bot.STATE = {
+    IDLE: 0,
+    MOVERIGHT: 1,
+    MOVELEFT: 2
+};
