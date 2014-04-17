@@ -22,18 +22,18 @@ var GameLayer = cc.LayerColor.extend({
             this.jumper.scheduleUpdate();
         }, 2);
         
-        this.scorelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.scorelbl.setPosition( new cc.Point( 750, 550 ) );
-        this.addChild( this.scorelbl );
+        this.scorelbl = cc.LabelTTF.create('0', 'Arial', 40);
+        this.scorelbl.setPosition(new cc.Point(750, 550));
+        this.addChild(this.scorelbl);
         
-        this.timelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
-        this.timelbl.setPosition( new cc.Point( 500, 550 ) );
-        this.addChild( this.timelbl );
+        this.timelbl = cc.LabelTTF.create('0', 'Arial', 40);
+        this.timelbl.setPosition(new cc.Point(500, 550));
+        this.addChild(this.timelbl);
         
-        this.lifelbl = cc.LabelTTF.create( '0', 'Arial', 40 );
+        this.lifelbl = cc.LabelTTF.create('0', 'Arial', 40);
         this.lifelbl.setString(this.jumper.life);
-        this.lifelbl.setPosition( new cc.Point( 100, 550 ) );
-        this.addChild( this.lifelbl );
+        this.lifelbl.setPosition(new cc.Point(100, 550));
+        this.addChild(this.lifelbl);
         
         this.setKeyboardEnabled(true);
         this.scheduleUpdate();
@@ -129,8 +129,8 @@ var GameLayer = cc.LayerColor.extend({
     
     checkKilled: function() {
         for (var i = 0; i < this.botFires.length; i++) {
-            if ((this.botFires[i].x >= this.jumper.x - 20) && (this.botFires[i].x <= this.jumper.x + 20) &&
-                (this.botFires[i].y >= this.jumper.y - 20) && (this.botFires[i].y <= this.jumper.y + 20)) {
+            if ((this.botFires[i].x >= this.jumper.x - 30) && (this.botFires[i].x <= this.jumper.x + 30) &&
+                (this.botFires[i].y >= this.jumper.y - 30) && (this.botFires[i].y <= this.jumper.y + 30)) {
                 this.removeChild(this.botFires[i]);
                 this.removeElement(this.botFires, this.botFires[i]);
                 
