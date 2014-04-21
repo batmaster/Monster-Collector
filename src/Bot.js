@@ -31,6 +31,7 @@ var Bot = cc.Sprite.extend({
         this.lastMovement = new Date().getTime();
         
         this.touch = 0;
+	this.inLine = 0;
     },
 
     updatePosition: function() {
@@ -65,6 +66,11 @@ var Bot = cc.Sprite.extend({
         if (this.touch >= 12) {
             this.gameLayer.botFire(this);
             this.touch = 0;
+        }
+
+	if (this.inLine >= 60) {
+            this.gameLayer.botFire(this);
+            this.inLine = 0;
         }
         
         if (this.y < 0) {
@@ -219,6 +225,12 @@ var Bot = cc.Sprite.extend({
             if (player.vy < 0) {
                 return true;
             }
+        }
+    },
+    
+    isInLine: function(player) {
+        if (player.getPositionY() >= this.y - 40 && player.getPositionY() <= this.y + 40) {
+            return true;
         }
     },
     

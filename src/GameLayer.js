@@ -5,7 +5,7 @@ var GameLayer = cc.LayerColor.extend({
         
         this.scene = scene;
         
-        this.botNum = 50;
+        this.botNum = 30;
         this.killedBot = 0;
         this.time = 3000;
         this.bots = [];
@@ -141,6 +141,13 @@ var GameLayer = cc.LayerColor.extend({
     
     checkBotTouched: function() {
         for (var i = 0; i < this.bots.length; i++) {
+            // inLine
+            if (this.bots[i].isInLine(this.jumper)) {
+                console.log("bots[" + i + "] " + this.bots[i].inLine);
+                this.bots[i].inLine++;
+            }
+
+            // touch
             if (this.bots[i].isTouch(this.jumper)) {
                 console.log("bots[" + i + "] " + this.bots[i].touch);
                 this.bots[i].touch++;
