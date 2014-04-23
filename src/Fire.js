@@ -1,12 +1,12 @@
 var Fire = cc.Sprite.extend({
-    ctor: function( x, y, gameLayer ) {
+    ctor: function( gameLayer ) {
         this._super();
         this.initWithFile( 'res/images/ie.png' );
         this.setScale(2);
         this.setAnchorPoint( 0.5, 0  );
-        this.startX = x;
-        this.x = x;
-        this.y = y;
+        this.x = gameLayer.jumper.x;
+        this.y = gameLayer.jumper.y;
+        this.startX = this.x;
         this.dir = gameLayer.jumper.dir;
         this.gameLayer = gameLayer;
         

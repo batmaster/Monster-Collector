@@ -57,13 +57,13 @@ var GameLayer = cc.LayerColor.extend({
     },
     
     fire: function() {
-        var fire = new Fire(this.jumper.x, this.jumper.y, this);
+        var fire = new Fire(this);
         this.fires.push(fire);
         this.lastFire = new Date().getTime();
     },
     
     botFire: function(bot) {
-        var botFire = new BotFire(bot.x, bot.y, this);
+        var botFire = new BotFire(bot, this);
         this.botFires.push(botFire);
     },
     

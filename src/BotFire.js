@@ -1,13 +1,15 @@
 var BotFire = cc.Sprite.extend({
-    ctor: function( x, y, gameLayer ) {
+    ctor: function( bot, gameLayer ) {
         this._super();
         this.initWithFile( 'res/images/ball.png' );
         this.setScale(2);
         this.setAnchorPoint( 0.5, 0  );
-        this.startX = x;
-        this.x = x;
-        this.y = y;
-        this.dir = gameLayer.jumper.dir;
+        this.x = bot.x;
+        this.y = bot.y;
+        this.startX = this.x;
+        /// temp ///
+        this.dir = bot.x - gameLayer.jumper.x >= 0 ? Bot.DIR.LEFT : Bot.DIR.RIGHT;
+        //////
         this.gameLayer = gameLayer;
         
         this.updatePosition();
@@ -21,14 +23,14 @@ var BotFire = cc.Sprite.extend({
     },
     
     update: function() {
-        if (this.dir == Jumper.DIR.RIGHT) {
+        if (this.dir == Bot.DIR.RIGHT) {
             this.x += 16;
             if (this.x > this.startX + 400) {
                 this.gameLayer.removeElement(this.gameLayer.fires, this);
                 this.gameLayer.removeChild(this);
             }
         }
-        else if (this.dir == Jumper.DIR.LEFT) {
+        else if (this.dir == Bot.DIR.LEFT) {
             this.x -= 16;
             if (this.x < this.startX - 400) {
                 this.gameLayer.removeElement(this.gameLayer.fires, this);

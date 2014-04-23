@@ -6,6 +6,7 @@ var Bot = cc.Sprite.extend({
         this.setAnchorPoint( 0.5, 0  );
         this.x = x;
         this.y = y;
+        this.dir = Jumper.DIR.RIGHT;
         this.gameLayer = gameLayer;
 
         this.maxVx = 8;
@@ -251,4 +252,9 @@ Bot.STATE = {
     IDLE: 0,
     MOVERIGHT: 1,
     MOVELEFT: 2
+};
+
+Bot.DIR = {
+    LEFT: -1,
+    RIGHT: 1
 };
