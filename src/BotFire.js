@@ -7,7 +7,7 @@ var BotFire = cc.Sprite.extend({
         this.x = bot.x;
         this.y = bot.y;
         this.startX = this.x;
-        /// temp ///
+        /// temp direction of botfire ///
         this.dir = bot.x - gameLayer.jumper.x >= 0 ? Bot.DIR.LEFT : Bot.DIR.RIGHT;
         //////
         this.gameLayer = gameLayer;
@@ -18,8 +18,7 @@ var BotFire = cc.Sprite.extend({
     },
     
     updatePosition: function() {
-        this.setPosition( cc.p( Math.round( this.x ),
-                                Math.round( this.y ) ) );
+        this.setPosition( cc.p( Math.round( this.x ), Math.round( this.y ) ) );
     },
     
     update: function() {

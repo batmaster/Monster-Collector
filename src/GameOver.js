@@ -18,7 +18,6 @@ var GameOver = cc.Layer.extend({
     onKeyDown: function(e) {
         switch(e){
             case cc.KEY.space:
-                
             break;
         }
     },

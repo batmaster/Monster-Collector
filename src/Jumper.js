@@ -8,7 +8,13 @@ var Jumper = cc.Sprite.extend({
         this.y = y;
         this.dir = Jumper.DIR.RIGHT;
         this.gameLayer = gameLayer;
+        
+        this.initValue();
 
+        this.updatePosition();
+    },
+    
+    initValue: function() {
         this.life = 5;
         
         this.maxVx = 8;
@@ -27,8 +33,6 @@ var Jumper = cc.Sprite.extend({
         this.ground = null;
 
         this.blocks = [];
-
-        this.updatePosition();
     },
 
     updatePosition: function() {
@@ -52,10 +56,7 @@ var Jumper = cc.Sprite.extend({
         var dX = this.x - oldX;
         var dY = this.y - oldY;
         
-        var newRect = cc.rect(oldRect.x + dX,
-                               oldRect.y + dY - 1,
-                               oldRect.width,
-                               oldRect.height + 1);
+        var newRect = cc.rect(oldRect.x + dX, oldRect.y + dY - 1, oldRect.width, oldRect.height + 1);
 
         this.handleCollision(oldRect, newRect);
         this.updatePosition();
