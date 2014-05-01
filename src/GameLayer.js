@@ -74,6 +74,13 @@ var GameLayer = cc.LayerColor.extend({
         this.botFires.push(botFire);
     },
     
+    rocketFires: function() {
+        for (var i = 0; i < 5 && i < this.bots.length; i++) {
+            var rocketFire = new RocketFire(this, this.bots[i]);
+            this.fires.push(rocketFire);
+        }
+        console.log("rocketFires");
+    },
     
     createBot: function() {
         var bot = new Bot(600, 600, this);
@@ -166,6 +173,9 @@ var GameLayer = cc.LayerColor.extend({
                 if (new Date().getTime() - this.lastFire >= 300) {
                     this.fire();
                 }
+            break;
+            case cc.KEY.r:
+                this.rocketFires();
             break;
         }
     },

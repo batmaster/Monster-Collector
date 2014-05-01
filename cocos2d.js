@@ -18,6 +18,7 @@
             'src/Block.js',
             'src/Bot.js',
             'src/Fire.js',
+            'src/RocketFire.js',
             'src/BotFire.js',
             'src/StartScene.js',
             'src/GameOver.js',
