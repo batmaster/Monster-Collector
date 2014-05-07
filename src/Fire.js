@@ -1,9 +1,9 @@
 var Fire = cc.Sprite.extend({
-    ctor: function( gameLayer ) {
+    ctor: function(gameLayer) {
         this._super();
-        this.initWithFile( 'res/images/ie.png' );
+        this.initWithFile('res/images/ie.png');
         this.setScale(2);
-        this.setAnchorPoint( 0.5, 0  );
+        this.setAnchorPoint(0.5, 0 );
         this.x = gameLayer.jumper.x;
         this.y = gameLayer.jumper.y;
         this.startX = this.x;
@@ -16,8 +16,7 @@ var Fire = cc.Sprite.extend({
     },
     
     updatePosition: function() {
-        this.setPosition( cc.p( Math.round( this.x ),
-                                Math.round( this.y ) ) );
+        this.setPosition(cc.p(Math.round(this.x), Math.round(this.y)));
     },
     
     update: function() {
@@ -35,7 +34,6 @@ var Fire = cc.Sprite.extend({
                 this.gameLayer.removeChild(this);
             }
         }
-        
         this.updatePosition();
     }
 });

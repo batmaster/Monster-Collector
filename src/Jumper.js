@@ -36,8 +36,7 @@ var Jumper = cc.Sprite.extend({
     },
 
     updatePosition: function() {
-        this.setPosition(cc.p(Math.round(this.x),
-                                Math.round(this.y)));
+        this.setPosition(cc.p(Math.round(this.x), Math.round(this.y)));
     },
 
     update: function() {
@@ -96,8 +95,7 @@ var Jumper = cc.Sprite.extend({
     },
 
     isSameDirection: function(dir) {
-        return (((this.vx >=0) && (dir >= 0)) ||
-                 ((this.vx <= 0) && (dir <= 0)));
+        return (((this.vx >=0) && (dir >= 0)) || ((this.vx <= 0) && (dir <= 0)));
     },
 
     accelerateX: function(dir) {

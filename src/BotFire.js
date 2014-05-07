@@ -9,7 +9,7 @@ var BotFire = cc.Sprite.extend({
         this.startX = this.x;
         /// temp direction of botfire ///
         this.dir = bot.x - gameLayer.jumper.x >= 0 ? Bot.DIR.LEFT : Bot.DIR.RIGHT;
-        //////
+        ///
         this.gameLayer = gameLayer;
         
         this.updatePosition();
@@ -36,7 +36,6 @@ var BotFire = cc.Sprite.extend({
                 this.gameLayer.removeChild(this);
             }
         }
-        
         this.updatePosition();
     }
 });

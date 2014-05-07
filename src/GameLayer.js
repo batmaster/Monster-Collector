@@ -79,7 +79,6 @@ var GameLayer = cc.LayerColor.extend({
             var rocketFire = new RocketFire(this, this.bots[i]);
             this.fires.push(rocketFire);
         }
-        console.log("rocketFires");
     },
     
     createBot: function() {
@@ -100,8 +99,7 @@ var GameLayer = cc.LayerColor.extend({
                     this.removeChild(this.fires[j]);
                     this.removeElement(this.bots, this.bots[i]);
                     this.removeElement(this.fires, this.fires[j]);
-                    console.log("remove: bots[" + i + "] fires[" + j + "]");
-
+                    
                     this.scorelbl.setString(++this.killedBot);
                     return;
                 }
@@ -113,13 +111,13 @@ var GameLayer = cc.LayerColor.extend({
         for (var i = 0; i < this.bots.length; i++) {
             // inLine
             if (this.bots[i].isInLine(this.jumper)) {
-                console.log("bots[" + i + "] " + this.bots[i].inLine);
+                //console.log("bots[" + i + "] " + this.bots[i].inLine);
                 this.bots[i].inLine++;
             }
 
             // touch
             if (this.bots[i].isTouch(this.jumper)) {
-                console.log("bots[" + i + "] " + this.bots[i].touch);
+                //console.log("bots[" + i + "] " + this.bots[i].touch);
                 this.bots[i].touch++;
             }
             
@@ -130,7 +128,7 @@ var GameLayer = cc.LayerColor.extend({
                 this.removeChild(this.bots[i]);
                 this.removeElement(this.bots, this.bots[i]);
                 this.scorelbl.setString(++this.killedBot);
-                console.log("stamp " + i);
+                //console.log("stamp " + i);
             }
         }
     },
@@ -162,6 +160,10 @@ var GameLayer = cc.LayerColor.extend({
             this.bots[i].unscheduleUpdate();
         }
         this.jumper.unscheduleUpdate();
+    },
+    
+    randomItem: function() {
+        
     },
     
     // general part //
