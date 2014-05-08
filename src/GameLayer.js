@@ -252,7 +252,7 @@ GameLayer.BOTNUM = [
     30,
     40,
     60,
-    1
+    80
 ];
 
 GameLayer.TIME = [
@@ -277,9 +277,9 @@ GameLayer.BOTBIRTHPOSITION = [
 ];
 
 GameLayer.BOTBIRTHFREQUENCY = [
-    1,
     2,
     3,
+    4,
     5
 ];
 

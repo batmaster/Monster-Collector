@@ -1,7 +1,7 @@
 var GameScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
-        this.state = 3;
+        this.state = 0;
         this.play(0);
     },
     
