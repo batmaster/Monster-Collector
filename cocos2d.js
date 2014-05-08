@@ -22,6 +22,7 @@
             'src/BotFire.js',
             'src/StartScene.js',
             'src/GameOver.js',
+            'src/StateCleared.js',
             'src/GameMap.js'
         ]
     };

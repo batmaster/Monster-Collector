@@ -26,7 +26,7 @@ var GameOver = cc.Layer.extend({
         console.log(e);
         switch(e) {
             case cc.KEY.enter:
-                this.scene.play();
+                this.scene.play(0);
             break;
         }
     },

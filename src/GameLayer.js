@@ -151,15 +151,21 @@ var GameLayer = cc.LayerColor.extend({
     
     checkGameOver: function() {
         if (this.time <= 0 || this.jumper.life <= 0) {
-            this.gameOver();
-            //this.scene.removeChild(this);
+            this.clearLayer();
+            this.scene.gameOver();
         }  
     },
     
-    gameOver: function() {
+    checkStateCleared: function() {
+        if (this.killedBot >= GameLayer.BOTNUM[this.state]) {
+            this.clearLayer();
+            this.scene.stateCleared();
+        }  
+    },
+    
+    clearLayer: function() {
         this.setKeyboardEnabled(false);
         this.unscheduleUpdate();
-        this.scene.gameOver();
         for (var i = 0; i < this.bots.length; i++) {
             this.bots[i].unscheduleUpdate();
         }
@@ -208,6 +214,7 @@ var GameLayer = cc.LayerColor.extend({
         this.timelbl.setString(parseInt(this.time));
         
         this.checkGameOver();
+        this.checkStateCleared();
     },
     
     removeElement: function(list, data) {

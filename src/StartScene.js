@@ -1,7 +1,8 @@
 var StartScene = cc.Scene.extend({
     onEnter: function() {
         this._super();
-        this.play();
+        this.state = 0;
+        this.play(0);
     },
     
     gameOver: function() {
@@ -10,10 +11,17 @@ var StartScene = cc.Scene.extend({
         this.addChild(gameoverLayer)
     },
     
-    play: function() {
+    stateCleared: function() {
+        var stateCleared = new StateCleared();
+        stateCleared.init(this);
+        this.addChild(stateCleared);
+    },
+    
+    play: function(status) {
+        this.state += status;
         this.removeAllChildren();
         this.layer = new GameLayer();
-        this.layer.init(this, 2);
+        this.layer.init(this, this.state);
         this.addChild(this.layer);
     },
     

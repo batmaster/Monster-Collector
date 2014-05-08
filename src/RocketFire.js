@@ -6,8 +6,9 @@ var RocketFire = cc.Sprite.extend({
         this.setAnchorPoint(0.5, 0 );
         this.x = gameLayer.jumper.x;
         this.y = gameLayer.jumper.y;
-        this.dirX = 0;
-        this.dirY = 0;
+        this.v = 8;
+        this.dirX = this.v;
+        this.dirY = this.v;
         this.startFrame = 0;
         this.dir = gameLayer.jumper.dir;
         this.gameLayer = gameLayer;
@@ -25,16 +26,16 @@ var RocketFire = cc.Sprite.extend({
     update: function() {
         if (this.isBotAlive()) {
             if (this.bot.x >= this.x) {
-                this.dirX = 8;
+                this.dirX = this.v;
             }
             else if (this.bot.x < this.x) {
-                this.dirX = -8;
+                this.dirX = -this.v;
             }
             if (this.bot.y >= this.y) {
-                this.dirY = 8;
+                this.dirY = this.v;
             }
             else if (this.bot.y < this.y) {
-                this.dirY = -8;
+                this.dirY = -this.v;
             }
         }
         else {
