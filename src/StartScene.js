@@ -13,7 +13,7 @@ var StartScene = cc.Scene.extend({
     play: function() {
         this.removeAllChildren();
         var layer = new GameLayer();
-        layer.init(this);
+        layer.init(this, 2);
         this.addChild(layer);
     },
     

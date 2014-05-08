@@ -1,10 +1,11 @@
 var GameLayer = cc.LayerColor.extend({
     // initial part //
-    init: function(scene) {
+    init: function(scene, state) {
         this._super(new cc.Color4B(127, 127, 127, 255));
         this.setPosition(new cc.Point(0, 0));
         
         this.scene = scene;
+        this.state = state;
         this.createBlocks();
         
         this.initValue();
@@ -20,9 +21,9 @@ var GameLayer = cc.LayerColor.extend({
     },
     
     initValue: function() {
-        this.botNum = 30;
+        this.botNum = GameLayer.BOTNUM[this.state];
         this.killedBot = 0;
-        this.time = 3000;
+        this.time = GameLayer.TIME[this.state];;
         this.bots = [];
         this.fires = [];
         this.botFires = [];
@@ -30,7 +31,9 @@ var GameLayer = cc.LayerColor.extend({
     },
     
     initJumper: function() {
-        this.jumper = new Jumper(400, 160, this);
+        var x = GameLayer.BIRTHPOSITION[this.state][0];
+        var y = GameLayer.BIRTHPOSITION[this.state][1];
+        this.jumper = new Jumper(x, y, this);
         this.jumper.setBlocks(this.blocks);
         this.addChild(this.jumper);
         this.scheduleOnce(function() {
@@ -48,18 +51,15 @@ var GameLayer = cc.LayerColor.extend({
     
     createBlocks: function() {
         this.blocks = [];
-        var groundBlock = new Block(0, 0, 700, 160);
-        this.blocks.push(groundBlock);
-
-        var middleBlock = new Block(0, 200, 400, 250);
-        this.blocks.push(middleBlock);
-
-        var topBlock = new Block(600, 400, 800, 450);
-        this.blocks.push(topBlock);
-
-        this.blocks.forEach(function(b) {
-            this.addChild(b);
-        }, this);
+        for (var i = 0; i < GameLayer.BLOCKS[this.state].length; i++) {
+            var x1 = GameLayer.BLOCKS[this.state][i][0];
+            var y1 = GameLayer.BLOCKS[this.state][i][1];
+            var x2 = GameLayer.BLOCKS[this.state][i][2];
+            var y2 = GameLayer.BLOCKS[this.state][i][3];
+            var block = new Block(x1, y1, x2, y2);
+            this.blocks.push(block);
+            this.addChild(block);
+        }
     },
     
     // game function part //
@@ -82,7 +82,11 @@ var GameLayer = cc.LayerColor.extend({
     },
     
     createBot: function() {
-        var bot = new Bot(600, 600, this);
+        var len = GameLayer.BOTBIRTHPOSITION[this.state].length;
+        var ran = 0 + Math.floor(Math.random() * len);
+        var x = GameLayer.BOTBIRTHPOSITION[this.state][ran][0];
+        var y = GameLayer.BOTBIRTHPOSITION[this.state][ran][1];
+        var bot = new Bot(x, y, this);
         bot.setBlocks(this.blocks);
         this.addChild(bot);
         bot.scheduleUpdate();
@@ -210,3 +214,37 @@ var GameLayer = cc.LayerColor.extend({
         }
     }
 });
+
+this.botNum = 30;
+        
+        this.time = 3000;
+
+GameLayer.BOTNUM = [
+    30,
+    40,
+    80  
+];
+
+GameLayer.TIME = [
+    3000,
+    3000,
+    4000
+];
+
+GameLayer.BIRTHPOSITION = [
+    [400, 160],
+    [400, 120],
+    [400, 50]
+];
+
+GameLayer.BOTBIRTHPOSITION = [
+    [[650, 600]],
+    [[650, 600], [150, 600]],
+    [[650, 600], [150, 600], [400, 600], [100, 50]]
+];
+
+GameLayer.BLOCKS = [
+    [[0, 0, 700, 160], [100, 200, 400, 250], [600, 400, 800, 450]],
+    [[0, 0, 700, 120], [0, 400, 200, 450], [100, 200, 400, 250], [600, 400, 800, 450]],
+    [[0, 0, 700, 50], [0, 350, 200, 400], [300, 200, 500, 250], [600, 400, 800, 450]]
+];
