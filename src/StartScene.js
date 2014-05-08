@@ -12,9 +12,9 @@ var StartScene = cc.Scene.extend({
     
     play: function() {
         this.removeAllChildren();
-        var layer = new GameLayer();
-        layer.init(this, 2);
-        this.addChild(layer);
+        this.layer = new GameLayer();
+        this.layer.init(this, 2);
+        this.addChild(this.layer);
     },
     
     showMap: function() {

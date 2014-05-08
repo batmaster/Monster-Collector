@@ -163,6 +163,9 @@ var GameLayer = cc.LayerColor.extend({
         for (var i = 0; i < this.bots.length; i++) {
             this.bots[i].unscheduleUpdate();
         }
+        for (var i = 0; i < this.fires.length; i++) {
+            this.fires[i].unscheduleUpdate();
+        }
         this.jumper.unscheduleUpdate();
     },
     

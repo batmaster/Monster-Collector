@@ -6,6 +6,8 @@ var RocketFire = cc.Sprite.extend({
         this.setAnchorPoint(0.5, 0 );
         this.x = gameLayer.jumper.x;
         this.y = gameLayer.jumper.y;
+        this.dirX = 0;
+        this.dirY = 0;
         this.startFrame = 0;
         this.dir = gameLayer.jumper.dir;
         this.gameLayer = gameLayer;
@@ -21,24 +23,53 @@ var RocketFire = cc.Sprite.extend({
     },
     
     update: function() {
-        if (this.bot.x >= this.x) {
-            this.x += 8;
+        if (this.isBotAlive()) {
+            if (this.bot.x >= this.x) {
+                this.dirX = 8;
+            }
+            else if (this.bot.x < this.x) {
+                this.dirX = -8;
+            }
+            if (this.bot.y >= this.y) {
+                this.dirY = 8;
+            }
+            else if (this.bot.y < this.y) {
+                this.dirY = -8;
+            }
         }
-        else if (this.bot.x < this.x) {
-            this.x -= 8;
+        else {
+            this.changeTarget();
         }
-        if (this.bot.y >= this.y) {
-            this.y += 8;
-        }
-        else if (this.bot.y < this.y) {
-            this.y -= 8;
-        }
+        
+        this.x += this.dirX;
+        this.y += this.dirY;
+        this.updatePosition();
+        
         this.startFrame++;
         if (this.startFrame >= 120) {
-            console.log(this);
             this.gameLayer.removeElement(this.gameLayer.fires, this);
             this.gameLayer.removeChild(this);
-        } 
-        this.updatePosition();
+        }
+    },
+    
+    isBotAlive: function() {
+        for (var i = 0; i < this.gameLayer.bots.length; i++) {
+            if (this.gameLayer.bots[i] == this.bot) {
+                return true;
+            }
+        }
+        return false;
+    },
+    
+    changeTarget: function() {
+        var min = Number.MAX_VALUE;
+        var index = Number.MAX_VALUE;
+        for (var i = 0; i < this.gameLayer.bots.length; i++) {
+            var distance = Math.sqrt(Math.pow((this.gameLayer.bots[i].x - this.x), 2) + Math.pow(this.gameLayer.bots[i].y - this.y, 2));
+            if (distance < min) {
+                index = i;
+            }
+        }
+        this.bot = this.gameLayer.bots[i];
     }
 });
