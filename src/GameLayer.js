@@ -11,12 +11,13 @@ var GameLayer = cc.LayerColor.extend({
         this.initValue();
         this.initJumper();
         
-        this.scorelbl = this.createLbl(750, 550, 0);
-        this.timelbl = this.createLbl(500, 550, 0);
-        this.lifelbl = this.createLbl(100, 550, this.jumper.life);
-        
-        this.setKeyboardEnabled(true);
+        this.finishStart = false;
+        this.timeStart = 4;
+        this.frameStart = 0;
+        this.notPlayLayer = true;
+        this.startTimelbl = this.lifelbl = this.createLbl(screenWidth/2, screenHeight/2, this.timeStart);
         this.scheduleUpdate();
+        
         return true;
     },
     
@@ -200,21 +201,43 @@ var GameLayer = cc.LayerColor.extend({
     },
     
     update: function() {
-        if (this.botNum > 0) {
-            var ran = 1 + Math.floor(Math.random() * 50);
-            if (ran == 1) {
-                this.createBot();
+        if (this.finishStart) {
+            if (this.notPlayLayer) {
+                this.scorelbl = this.createLbl(750, 550, 0);
+                this.timelbl = this.createLbl(500, 550, 0);
+                this.lifelbl = this.createLbl(100, 550, this.jumper.life);
+                this.setKeyboardEnabled(true);
+                
+                this.notPlayLayer = false;
+            }
+            
+            if (this.botNum > 0) {
+                var ran = 1 + Math.floor(Math.random() * 50);
+                if (ran == 1) {
+                    this.createBot();
+                }
+            }
+            this.checkBotKilled();
+            this.checkBotTouched();
+            this.checkKilled();
+
+            this.time--;
+            this.timelbl.setString(parseInt(this.time));
+
+            this.checkGameOver();
+            this.checkStateCleared();
+        }
+        else {
+            if (++this.frameStart >= 60) {
+                this.startTimelbl.setString(--this.timeStart);
+                this.frameStart = 0;
+                
+                if (this.timeStart <= 0) {
+                    this.removeChild(this.startTimelbl);
+                    this.finishStart = true;
+                }
             }
         }
-        this.checkBotKilled();
-        this.checkBotTouched();
-        this.checkKilled();
-        
-        this.time--;
-        this.timelbl.setString(parseInt(this.time));
-        
-        this.checkGameOver();
-        this.checkStateCleared();
     },
     
     removeElement: function(list, data) {
