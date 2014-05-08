@@ -23,6 +23,8 @@
             'src/StartScene.js',
             'src/GameOver.js',
             'src/StateCleared.js',
+            'src/MenuLayer.js',
+            'src/GameScene.js',
             'src/GameMap.js'
         ]
     };

@@ -225,10 +225,6 @@ var GameLayer = cc.LayerColor.extend({
     }
 });
 
-this.botNum = 30;
-        
-        this.time = 3000;
-
 GameLayer.BOTNUM = [
     30,
     40,
