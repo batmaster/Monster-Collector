@@ -8,7 +8,13 @@ var BotFire = cc.Sprite.extend({
         this.y = bot.y;
         this.startX = this.x;
         /// temp direction of botfire ///
-        this.dir = bot.x - gameLayer.jumper.x >= 0 ? Bot.DIR.LEFT : Bot.DIR.RIGHT;
+        if (bot.x - gameLayer.jumper.x >= 0) {
+            bot.turnLeft();
+        }
+        else {
+            bot.turnRight();
+        }
+        this.dir = bot.dir;
         ///
         this.gameLayer = gameLayer;
         

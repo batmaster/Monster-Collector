@@ -1,12 +1,12 @@
 var Bot = cc.Sprite.extend({
     ctor: function(x, y, gameLayer) {
         this._super();
-        this.initWithFile('res/images/bot.png');
+        this.initWithFile('res/images/Bakumon1.png');
         this.setScale(2);
         this.setAnchorPoint(0.5, 0 );
         this.x = x;
         this.y = y;
-        this.dir = Jumper.DIR.RIGHT;
+        this.dir = Bot.DIR.RIGHT;
         this.gameLayer = gameLayer;
 
         this.maxVx = 8;
@@ -32,11 +32,36 @@ var Bot = cc.Sprite.extend({
         this.lastMovement = new Date().getTime();
         
         this.touch = 0;
-	this.inLine = 0;
+        this.inLine = 0;
+        
+        var animation = new cc.Animation.create();
+		animation.addSpriteFrameWithFile('res/images/Bakumon1.png');
+		animation.addSpriteFrameWithFile('res/images/Bakumon2.png');
+        animation.addSpriteFrameWithFile('res/images/Bakumon3.png');
+        animation.addSpriteFrameWithFile('res/images/Bakumon2.png');
+		animation.setDelayPerUnit(0.1);
+        this.isNotAnimating = true;
+        this.movingAction = cc.RepeatForever.create(cc.Animate.create(animation));
     },
 
     updatePosition: function() {
         this.setPosition(cc.p(Math.round(this.x), Math.round(this.y)));
+    },
+    
+    turnRight: function() {
+        if (this.state != Bot.STATE.IDLE) {
+            this.state = Bot.STATE.RIGHT;
+        }
+        this.dir = Bot.DIR.RIGHT;
+        this.setFlippedX(false);
+    },
+    
+    turnLeft: function() {
+        if (this.state != Bot.STATE.IDLE) {
+            this.state = Bot.STATE.LEFT;
+        }
+        this.dir = Bot.DIR.LEFT;
+        this.setFlippedX(true);
     },
     
     update: function() {
@@ -49,14 +74,20 @@ var Bot = cc.Sprite.extend({
         
         switch (this.state) {
             case Bot.STATE.IDLE:
-
+                this.stopAnimate();
                 break;
             case Bot.STATE.MOVERIGHT:
+                this.dir = Bot.DIR.RIGHT;
+                this.setFlippedX(false);
+                this.animate();
                 this.x += 3;
                 this.randomJump();
                 //this.moveRight();
                 break;
             case Bot.STATE.MOVELEFT:
+                this.dir = Bot.DIR.LEFT;
+                this.setFlippedX(true);
+                this.animate();
                 this.x -= 3;
                 this.randomJump();
                 //this.moveLeft();
@@ -89,17 +120,29 @@ var Bot = cc.Sprite.extend({
         var dX = this.x - oldX;
         var dY = this.y - oldY;
         
-        var newRect = cc.rect(oldRect.x + dX,
-                               oldRect.y + dY - 1,
-                               oldRect.width,
-                               oldRect.height + 1);
+        var newRect = cc.rect(oldRect.x + dX, oldRect.y + dY - 1, oldRect.width, oldRect.height + 1);
 
         this.handleCollision(oldRect, newRect);
         this.updatePosition();
     },
+    
+    animate: function() {
+        if (this.isNotAnimating) {
+            this.runAction(this.movingAction);
+            this.isNotAnimating = false;
+        }
+    },
+    
+    stopAnimate: function() {
+        if (!this.isNotAnimating) {
+            this.stopAction(this.movingAction);
+            this.isNotAnimating = true;
+            //this.initWithFile('res/images/Metalgraymon1.png');
+        }
+    },
 
     randomJump: function() {
-        var ran = 1 + Math.floor(Math.random() * 300);
+        var ran = !this.jump ? 1 + Math.floor(Math.random() * 300) : 1 + Math.floor(Math.random() * 50);
         if (ran == 50) {
             this.jump = !this.jump;
         }    

@@ -1,9 +1,9 @@
 var Jumper = cc.Sprite.extend({
     ctor: function(x, y, gameLayer) {
         this._super();
-        this.initWithFile('res/images/tp.png');
+        this.initWithFile('res/images/Metalgraymon1.png');
         this.setScale(2);
-        this.setAnchorPoint(0.5, 0 );
+        this.setAnchorPoint(0.5, 0);
         this.x = x;
         this.y = y;
         this.dir = Jumper.DIR.RIGHT;
@@ -12,6 +12,20 @@ var Jumper = cc.Sprite.extend({
         this.initValue();
 
         this.updatePosition();
+        
+        
+        
+        
+        
+        var animation = new cc.Animation.create();
+		animation.addSpriteFrameWithFile('res/images/Metalgraymon1.png');
+		animation.addSpriteFrameWithFile('res/images/Metalgraymon2.png');
+        animation.addSpriteFrameWithFile('res/images/Metalgraymon3.png');
+        animation.addSpriteFrameWithFile('res/images/Metalgraymon2.png');
+		animation.setDelayPerUnit(0.1);
+        this.isNotAnimating = true;
+		this.movingAction = cc.RepeatForever.create(cc.Animate.create(animation));
+		
     },
     
     initValue: function() {
@@ -163,21 +177,41 @@ var Jumper = cc.Sprite.extend({
         }
         
         if (e == cc.KEY.left) {
+            this.setFlippedX(true);
+            this.animate();
             this.dir = Jumper.DIR.LEFT;
         }
         else if (e == cc.KEY.right) {
+            this.setFlippedX(false);
+            this.animate();
             this.dir = Jumper.DIR.RIGHT;
         }
     },
 
     handleKeyUp: function(e) {
         if (Jumper.KEYMAP[e] != undefined) {
+            this.stopAnimate();
             this[Jumper.KEYMAP[e]] = false;
         }
     },
 
     setBlocks: function(blocks) {
         this.blocks = blocks;
+    },
+    
+    animate: function() {
+        if (this.isNotAnimating) {
+            this.runAction(this.movingAction);
+            this.isNotAnimating = false;
+        }
+    },
+    
+    stopAnimate: function() {
+        if (!this.isNotAnimating) {
+            this.stopAction(this.movingAction);
+            this.isNotAnimating = true;
+            //this.initWithFile('res/images/Metalgraymon1.png');
+        }
     }
 });
 

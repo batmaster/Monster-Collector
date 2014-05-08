@@ -252,7 +252,7 @@ GameLayer.BOTNUM = [
     30,
     40,
     60,
-    80
+    1
 ];
 
 GameLayer.TIME = [
