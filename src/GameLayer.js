@@ -212,8 +212,8 @@ var GameLayer = cc.LayerColor.extend({
             }
             
             if (this.botNum > 0) {
-                var ran = 1 + Math.floor(Math.random() * 50);
-                if (ran == 1) {
+                var ran = 1 + Math.floor(Math.random() * 100);
+                if (ran <= GameLayer.BOTBIRTHFREQUENCY[this.state]) {
                     this.createBot();
                 }
             }
@@ -228,7 +228,7 @@ var GameLayer = cc.LayerColor.extend({
             this.checkStateCleared();
         }
         else {
-            if (++this.frameStart >= 60) {
+            if (++this.frameStart >= 45) {
                 this.startTimelbl.setString(--this.timeStart);
                 this.frameStart = 0;
                 
@@ -251,29 +251,41 @@ var GameLayer = cc.LayerColor.extend({
 GameLayer.BOTNUM = [
     30,
     40,
-    80  
+    60,
+    80
 ];
 
 GameLayer.TIME = [
-    3000,
-    3000,
-    4000
+    4000,
+    4000,
+    5000,
+    5500
 ];
 
 GameLayer.BIRTHPOSITION = [
     [400, 160],
     [400, 120],
-    [400, 50]
+    [400, 50],
+    [50, 50]
 ];
 
 GameLayer.BOTBIRTHPOSITION = [
     [[650, 600]],
     [[650, 600], [150, 600]],
-    [[650, 600], [150, 600], [400, 600], [100, 50]]
+    [[650, 600], [150, 600], [400, 600], [100, 50]],
+    [[200, 500], [600, 500], [300, 500], [500, 500]]
+];
+
+GameLayer.BOTBIRTHFREQUENCY = [
+    1,
+    2,
+    3,
+    5
 ];
 
 GameLayer.BLOCKS = [
     [[0, 0, 700, 160], [100, 200, 400, 250], [600, 400, 800, 450]],
     [[0, 0, 700, 120], [0, 400, 200, 450], [100, 200, 400, 250], [600, 400, 800, 450]],
-    [[0, 0, 700, 50], [0, 350, 200, 400], [300, 200, 500, 250], [600, 400, 800, 450]]
+    [[0, 0, 700, 50], [0, 350, 200, 400], [300, 200, 500, 250], [600, 400, 800, 450]],
+    [[0, 0, 800, 50], [0, 200, 300, 250], [500, 200, 800, 250], [100, 450, 250, 500], [550, 450, 700, 500]]
 ];

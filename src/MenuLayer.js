@@ -7,6 +7,7 @@ var MenuLayer = cc.LayerColor.extend({
         this.lbl = cc.LabelTTF.create( '0', 'Arial', 40 );
         this.lbl.setPosition( new cc.Point( screenWidth/2, screenHeight/2 ) );
         this.lbl.setString("Press Enter to Start");
+        this.addChild(this.lbl);
         
         this.setKeyboardEnabled(true);
         this.scheduleUpdate();
